@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://bt2wt2knlwbsy"]
+
+[ext_resource type="Script" path="res://scripts/card.gd" id="1_fodcj"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qymdg"]
+load_path = "res://.godot/imported/AceOfSpades.png-1c350334f9b6fc76538fdf2438165a02.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fihwt"]
+size = Vector2(162, 244)
+
+[node name="Card" type="Node2D"]
+position = Vector2(960, 540)
+script = ExtResource("1_fodcj")
+
+[node name="CardImage" type="Sprite2D" parent="."]
+scale = Vector2(0.22, 0.22)
+texture = SubResource("CompressedTexture2D_qymdg")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_fihwt")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

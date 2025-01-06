@@ -1,0 +1,83 @@
+[gd_scene load_steps=13 format=3 uid="uid://c43sq8hjvfnbh"]
+
+[ext_resource type="Script" path="res://scripts/card_manager.gd" id="1_46fs8"]
+[ext_resource type="Script" path="res://scripts/player_hand.gd" id="2_bmt53"]
+[ext_resource type="Script" path="res://scripts/ally_hand.gd" id="3_eqcdf"]
+[ext_resource type="Script" path="res://scripts/to_play.gd" id="3_nw7a3"]
+[ext_resource type="Script" path="res://scripts/op_right_hand.gd" id="4_4eye8"]
+[ext_resource type="Script" path="res://scripts/deck.gd" id="4_m0ibt"]
+[ext_resource type="Script" path="res://scripts/op_left_hand.gd" id="5_16ivl"]
+[ext_resource type="Texture2D" uid="uid://dhrvcdhqva715" path="res://assets/card back.png" id="5_jelvm"]
+[ext_resource type="Script" path="res://scripts/input_manager.gd" id="6_6nkdl"]
+[ext_resource type="Script" path="res://scripts/turn_manager.gd" id="10_g27t1"]
+[ext_resource type="Script" path="res://scripts/rounds_manager.gd" id="11_dlbca"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kuy33"]
+size = Vector2(144.5, 216)
+
+[node name="Main" type="Node2D"]
+
+[node name="card manager" type="Node2D" parent="."]
+script = ExtResource("1_46fs8")
+
+[node name="player hand" type="Node2D" parent="card manager"]
+script = ExtResource("2_bmt53")
+
+[node name="ally hand" type="Node2D" parent="card manager"]
+script = ExtResource("3_eqcdf")
+
+[node name="op left hand" type="Node2D" parent="card manager"]
+script = ExtResource("5_16ivl")
+
+[node name="op right hand" type="Node2D" parent="card manager"]
+script = ExtResource("4_4eye8")
+
+[node name="to play" type="Node2D" parent="card manager"]
+script = ExtResource("3_nw7a3")
+
+[node name="deck" type="Node2D" parent="."]
+position = Vector2(960, 540)
+script = ExtResource("4_m0ibt")
+
+[node name="CardBack" type="Sprite2D" parent="deck"]
+z_index = -2
+position = Vector2(9.53674e-07, 4.76837e-07)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("5_jelvm")
+
+[node name="Area2D" type="Area2D" parent="deck"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="deck/Area2D"]
+position = Vector2(0.25, 0)
+shape = SubResource("RectangleShape2D_kuy33")
+
+[node name="input manager" type="Node2D" parent="."]
+script = ExtResource("6_6nkdl")
+
+[node name="play cards button" type="Button" parent="."]
+offset_left = 1209.0
+offset_top = 607.0
+offset_right = 1328.0
+offset_bottom = 643.0
+text = "play card(s)"
+
+[node name="turn manager" type="Node" parent="."]
+script = ExtResource("10_g27t1")
+
+[node name="rounds manager" type="Node" parent="."]
+script = ExtResource("11_dlbca")
+
+[node name="info" type="RichTextLabel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="round timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="draw timer" type="Timer" parent="."]
+
+[connection signal="draw_phase_over" from="deck" to="turn manager" method="_on_deck_draw_phase_over"]
+[connection signal="pressed" from="play cards button" to="turn manager" method="_on_play_cards_button_pressed"]
